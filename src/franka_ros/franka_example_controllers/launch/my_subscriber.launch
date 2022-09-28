@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="robot_ip" default="172.16.0.2"/>
+  <arg name="load_gripper" default="true" />
+  <arg name="gripper_homed" default="false" />
+  <arg name="follower_id" default="panda_2" />
+  
+  <include file="$(find franka_control)/launch/franka_control.launch" >
+    <arg name="robot_ip" value="$(arg robot_ip)" />
+    <arg name="load_gripper" value="$(arg load_gripper)" />
+  </include>
+
+  <rosparam command="load" file="$(find franka_example_controllers)/config/franka_example_controllers.yaml" />
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="my_subscriber">
+    <rosparam param="gripper_homed" subst_value="true">$(arg gripper_homed)</rosparam>
+    <!-- <remap from="follower/homing" to="/franka_gripper/homing" />
+    <remap from="follower/grasp" to="/franka_gripper/grasp" />
+    <remap from="follower/move" to="/franka_gripper/move" />
+    <remap from="follower/stop" to="/franka_gripper/stop" /> -->
+  </node>
+  <node pkg="rviz" type="rviz" output="screen" name="rviz" args="-d $(find franka_example_controllers)/launch/robot.rviz"/>
+</launch>
+
+
+<!-- <?xml version="1.0" ?>
+<launch>
+  <arg name="robot_ip" default="172.16.0.2"/>
+  <arg name="load_gripper" default="true" />
+  
+  <include file="$(find franka_control)/launch/franka_control.launch" >
+    <arg name="robot_ip" value="$(arg robot_ip)" />
+    <arg name="load_gripper" value="$(arg load_gripper)" />
+  </include>
+
+  <rosparam command="load" file="$(find franka_example_controllers)/config/franka_example_controllers.yaml" />
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="my_subscriber"/>
+  <node pkg="rviz" type="rviz" output="screen" name="rviz" args="-d $(find franka_example_controllers)/launch/robot.rviz"/>
+</launch> -->
+

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- start camera -->
+    <include file="$(find pylon_camera)/launch/pylon_camera_node.launch"/>
+    
+    <!-- start aruco for double -->
+    <include file="$(find aruco_ros)/launch/double.launch"/>
+    
+    <!-- start rqt_image_view -->
+    <node pkg="rqt_image_view" name="rqt_image_view" type="rqt_image_view"/>
+
+    <!-- start video recording -->
+    <!-- <param name="name" value="point"/>
+    <node pkg = "pylon_camera" name = "image_show_node" type = "save_video.py" output = "screen"/> -->
+</launch>
